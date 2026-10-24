@@ -1,0 +1,48 @@
+name: Weekly eBay Listing Refresh
+
+on:
+  schedule:
+    # Every Monday at 13:00 UTC (07:00 America/Denver during MDT / 06:00 during MST).
+    # Adjust to taste - GitHub Actions cron is always UTC.
+    - cron: '0 13 * * 1'
+  workflow_dispatch: {}  # manual "Run workflow" button for testing
+
+jobs:
+  refresh-listings:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # needed to commit the updated data/listings.json back
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run weekly relist sweep
+        env:
+          EBAY_CLIENT_ID: ${{ secrets.EBAY_CLIENT_ID }}
+          EBAY_CLIENT_SECRET: ${{ secrets.EBAY_CLIENT_SECRET }}
+          EBAY_REFRESH_TOKEN: ${{ secrets.EBAY_REFRESH_TOKEN }}
+          EBAY_ENV: ${{ secrets.EBAY_ENV }}  # "sandbox" or "production" - defaults to sandbox if unset
+        # NOTE: still --dry-run for now (see README "Current status" and the
+        # caution about testing the actual premise before trusting this on a
+        # schedule). Remove --dry-run only after a real Sandbox test call has
+        # succeeded via ebay_client.end_and_relist().
+        run: python -m src.relist_worker --dry-run --write
+
+      - name: Commit updated listings database
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/listings.json
+          git diff --staged --quiet || git commit -m "Weekly relist sweep $(date -u +%Y-%m-%d)"
+          git push
