@@ -35,12 +35,11 @@ jobs:
           EBAY_CLIENT_ID: ${{ secrets.EBAY_CLIENT_ID }}
           EBAY_CLIENT_SECRET: ${{ secrets.EBAY_CLIENT_SECRET }}
           EBAY_REFRESH_TOKEN: ${{ secrets.EBAY_REFRESH_TOKEN }}
-          EBAY_ENV: ${{ secrets.EBAY_ENV }}  # "sandbox" or "production" - defaults to sandbox if unset
-        # NOTE: still --dry-run for now. Remove --dry-run (and add the four
-        # secrets above in Settings -> Secrets and variables -> Actions)
-        # only once a manual live run (ebay_client.end_and_relist, run by
-        # hand against Production) has actually succeeded - see README.
-        run: python -m src.relist_worker --dry-run --write
+          EBAY_ENV: ${{ secrets.EBAY_ENV }}
+        # Live as of 2026-10-25 - secrets added, manual live run confirmed
+        # working against Production (see README). This now actually ends
+        # and relists real listings.
+        run: python -m src.relist_worker --write
 
       - name: Commit updated listings database
         run: |
