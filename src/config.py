@@ -1,4 +1,4 @@
-"""Every tunable number/flag for the weekly relist sweep, in one place.
+"""Every tunable number/flag for the relist sweep, in one place.
 Edit values directly, or override via environment variables (useful for
 GitHub Actions secrets/vars without touching code).
 """
@@ -11,9 +11,18 @@ import os
 # a listing must be before it's eligible for refresh.
 AGE_THRESHOLD_DAYS = int(os.getenv("AGE_THRESHOLD_DAYS", "30"))
 
-# Max number of listings refreshed in a single weekly run. Anything past this
-# rolls into next week automatically (selection is always freshly computed).
-WEEKLY_REFRESH_CAP = int(os.getenv("WEEKLY_REFRESH_CAP", "10"))
+# Max number of listings refreshed in a SINGLE RUN of the cron (see
+# .github/workflows/relist.yml for how often that cron actually fires - the
+# monthly pace is CAP * (runs per month), not just this number by itself).
+# Anything past the cap rolls into the next run automatically (eligibility is
+# always freshly recomputed from each listing's own last_refreshed_date).
+#
+# Current design: cron fires weekdays (Mon-Fri) once/day, cap=1/run ->
+# ~5/week -> ~22/month. Deliberately a small, steady daily trickle rather
+# than a weekly burst, both to spread the API/data footprint out evenly and
+# to stay well clear of anything that could look like bulk listing
+# manipulation to eBay (see README's caution on frequent end-and-relist).
+REFRESH_CAP_PER_RUN = int(os.getenv("REFRESH_CAP_PER_RUN", "1"))
 
 # Short, generic lines that may be appended below the untouched original
 # description. None ("no line") is a valid, deliberate choice in the

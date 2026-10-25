@@ -1,10 +1,13 @@
-name: Weekly eBay Listing Refresh
+name: eBay Listing Refresh
 
 on:
   schedule:
-    # Every Monday at 13:00 UTC (07:00 America/Denver during MDT / 06:00 during MST).
-    # Adjust to taste - GitHub Actions cron is always UTC.
-    - cron: '0 13 * * 1'
+    # Weekdays (Mon-Fri) at 13:00 UTC (07:00 America/Denver during MDT /
+    # 06:00 during MST). Combined with REFRESH_CAP_PER_RUN=1 in config.py,
+    # this is a steady ~1/weekday trickle - about 5/week, ~22/month -
+    # deliberately well short of anything that reads as a bulk listing
+    # churn. Adjust to taste - GitHub Actions cron is always UTC.
+    - cron: '0 13 * * 1-5'
   workflow_dispatch: {}  # manual "Run workflow" button for testing
 
 jobs:
@@ -27,16 +30,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run weekly relist sweep
+      - name: Run relist sweep
         env:
           EBAY_CLIENT_ID: ${{ secrets.EBAY_CLIENT_ID }}
           EBAY_CLIENT_SECRET: ${{ secrets.EBAY_CLIENT_SECRET }}
           EBAY_REFRESH_TOKEN: ${{ secrets.EBAY_REFRESH_TOKEN }}
           EBAY_ENV: ${{ secrets.EBAY_ENV }}  # "sandbox" or "production" - defaults to sandbox if unset
-        # NOTE: still --dry-run for now (see README "Current status" and the
-        # caution about testing the actual premise before trusting this on a
-        # schedule). Remove --dry-run only after a real Sandbox test call has
-        # succeeded via ebay_client.end_and_relist().
+        # NOTE: still --dry-run for now. Remove --dry-run (and add the four
+        # secrets above in Settings -> Secrets and variables -> Actions)
+        # only once a manual live run (ebay_client.end_and_relist, run by
+        # hand against Production) has actually succeeded - see README.
         run: python -m src.relist_worker --dry-run --write
 
       - name: Commit updated listings database
@@ -44,5 +47,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/listings.json
-          git diff --staged --quiet || git commit -m "Weekly relist sweep $(date -u +%Y-%m-%d)"
+          git diff --staged --quiet || git commit -m "Relist sweep $(date -u +%Y-%m-%d)"
           git push

@@ -31,12 +31,22 @@ SEPARATORS = [" - ", " "]
 # Multiple phrasings per platform, including a short abbreviation-only form,
 # so the title can vary in length and style across refreshes.
 PLATFORM_PHRASES: dict[str, list[str]] = {
+    "PS5": ["Sony PlayStation 5 PS5", "PlayStation 5 PS5", "PS5"],
     "PS4": ["Sony PlayStation 4 PS4", "PlayStation 4 PS4", "PS4"],
     "PS3": ["Sony PlayStation 3 PS3", "PlayStation 3 PS3", "PS3"],
     "PS2": ["Sony PlayStation 2 PS2", "PlayStation 2 PS2", "PS2"],
+    "PSP": ["Sony PSP", "PlayStation Portable PSP", "PSP"],
     "Switch": ["Nintendo Switch", "Switch"],
+    "3DS": ["Nintendo 3DS", "3DS"],
+    "DS": ["Nintendo DS", "DS"],
+    "GBA": ["Nintendo Game Boy Advance GBA", "Game Boy Advance GBA", "GBA"],
+    "GameCube": ["Nintendo GameCube", "GameCube"],
+    "N64": ["Nintendo 64 N64", "Nintendo 64", "N64"],
     "Xbox": ["Microsoft Xbox", "Original Xbox", "Xbox"],
     "Xbox360": ["Microsoft Xbox 360", "Xbox 360"],
+    "XboxOne": ["Microsoft Xbox One", "Xbox One"],
+    "XboxSeriesX": ["Microsoft Xbox Series X", "Xbox Series X"],
+    "XboxSeriesS": ["Microsoft Xbox Series S", "Xbox Series S"],
 }
 
 # Only ever applied when condition_key == "sealed".

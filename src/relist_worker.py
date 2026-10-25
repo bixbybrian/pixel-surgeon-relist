@@ -50,13 +50,21 @@ def select_stale_listings(db: dict, now: datetime) -> list[dict]:
     threshold = timedelta(days=config.AGE_THRESHOLD_DAYS)
     eligible = []
     for listing in db["listings"]:
+        # needs_review=True means sync_inventory.py couldn't confidently
+        # parse a platform/condition for this listing (e.g. it isn't a game
+        # at all, or uses phrasing the title parser doesn't recognize yet).
+        # Permanently out of scope for the automated sweep until a human
+        # clears the flag by hand in the database file - never auto-touched
+        # on the strength of a guess.
+        if listing.get("needs_review"):
+            continue
         anchor = listing.get("last_refreshed_date") or listing["first_listed_date"]
         age = now - _parse_dt(anchor)
         if age >= threshold:
             eligible.append((age, listing))
     # Oldest (largest age) first.
     eligible.sort(key=lambda pair: pair[0], reverse=True)
-    return [listing for _age, listing in eligible[: config.WEEKLY_REFRESH_CAP]]
+    return [listing for _age, listing in eligible[: config.REFRESH_CAP_PER_RUN]]
 
 
 def pick_description_append(listing: dict) -> str | None:
@@ -83,7 +91,11 @@ def build_new_description(listing: dict, append_line: str | None) -> str:
     original = listing["description_original"]
     if not append_line:
         return original
-    return f"{original}\n\n{append_line}"
+    # Real eBay descriptions are HTML (even if simple, usually one or more
+    # <p> tags) - appending raw "\n\n{line}" would land as bare text outside
+    # any tag. Wrapping it as its own <p> keeps it rendering consistently
+    # with the rest of the listing.
+    return f"{original}\n<p>{append_line}</p>"
 
 
 def compute_new_price(listing: dict) -> float:

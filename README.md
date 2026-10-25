@@ -49,33 +49,44 @@ view/impression data on a handful of real listings once this goes live in
 production, specifically because point 2 above can't be checked any other
 way.
 
-## Current status: developer account approved, moving to Sandbox testing
+## Current status: live-tested against the real Production account
 
-Everything runs end-to-end in **dry-run mode** against the seed data in
-`data/listings.json`, and `src/ebay_client.py` is implemented against the
-specific eBay Trading API calls confirmed via eBay's own docs (not yet
-tested against any real — even Sandbox — account):
+eBay Sandbox turned out to be unreliable (persistent sign-in failures on
+eBay's side, never resolved) and was abandoned in favor of testing directly
+against Production, by explicit choice, on 2026-10-25.
 
-- `GetItem` → `Item/ListingDetails/StartTime` for real listing age.
-- `EndFixedPriceItem` to end the active listing, then `RelistFixedPriceItem`
-  (within 90 days) to relist it fresh with a new ItemID and the new
-  title/description/price all set in that same call.
+**A real, live end-and-relist has succeeded** against the real
+`pixel-surgeon-game-lab` account: `EndFixedPriceItem` + `RelistFixedPriceItem`
+ended item 394348330554 ("XCOM 2 - Sony PlayStation 4 PS4") and relisted it
+as a new item (920074320533), independently verified afterward via a fresh
+`GetItem` call on both the old (now `ListingStatus: Completed`) and new
+(live, correct title/price) item IDs. This also settled the two previously
+unconfirmed details:
 
-Two details remain genuinely unconfirmed — not guessable from docs, need a
-real test call:
+1. **OAuth scope**: the base `.../oauth/api_scope` (plus `sell.inventory` /
+   `sell.account`, used elsewhere) works for these Trading API calls under
+   `X-EBAY-API-IAF-TOKEN`. No widening needed.
+2. **`EndingReason` value**: `NotAvailable` (the default) was accepted by
+   eBay without error.
 
-1. **OAuth scope** for these Trading API calls under the `X-EBAY-API-IAF-TOKEN`
-   header — eBay's per-method pages don't list one. Defaulted to the base
-   `.../oauth/api_scope`; widen if Sandbox returns Unauthorized.
-2. **`EndingReason` value** — none of eBay's documented options
-   (`NotAvailable`, `Incorrect`, `LostOrBroken`, `OtherListingError`, ...)
-   describe "ending on purpose to relist." Defaulted to `NotAvailable` as the
-   closest fit; may need adjusting based on what a real test call says.
+**Inventory scope**: the real account has 162 active listings, but only 79
+of them are actual video games — the rest (83) are vinyl records, DVDs,
+trading cards, and other collectibles outside this tool's title-variation
+logic (built entirely around game platform/condition phrasing). Those 83
+are permanently excluded from `data/listings.json` and from the automated
+sweep (`relist_worker.select_stale_listings` skips anything flagged
+`needs_review`, which `sync_inventory.py --live` sets whenever it can't
+confidently detect a platform). Covering the rest of the shop is a planned
+future phase - see "Open questions" below.
 
-`ebay_client.py` defaults to eBay's **Sandbox** environment (`EBAY_ENV=sandbox`)
-so a misconfigured first run can't touch real listings — switch to
-`EBAY_ENV=production` only once a Sandbox test has actually succeeded. The
-GitHub Actions workflow still runs with `--dry-run` regardless.
+`ebay_client.py` still *defaults* to Sandbox if `EBAY_ENV` isn't set (safer
+default) - the real account requires `EBAY_ENV=production` explicitly, which
+is set in `.local/prod.env` (not committed) for manual runs and needs to be
+added as a repo secret for the scheduled workflow (see below).
+The GitHub Actions workflow still runs with `--dry-run` until the four
+secrets (`EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET`, `EBAY_REFRESH_TOKEN`,
+`EBAY_ENV`) are added in the repo's Settings → Secrets and variables →
+Actions - that's the one remaining step before the schedule runs for real.
 
 ## eBay Developer setup
 

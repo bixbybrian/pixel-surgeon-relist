@@ -116,6 +116,7 @@ class ItemDetails:
     title: str
     start_time: str | None  # ISO-ish string straight from eBay, or None if absent
     price: float | None
+    description: str | None = None
 
 
 class EbayApiError(RuntimeError):
@@ -177,8 +178,65 @@ def get_item(access_token: str, item_id: str) -> ItemDetails:
     start_time = item.findtext(f"{NS}ListingDetails/{NS}StartTime")
     price_text = item.findtext(f"{NS}StartPrice")
     price = float(price_text) if price_text else None
+    description = item.findtext(f"{NS}Description")
 
-    return ItemDetails(item_id=item_id, title=title, start_time=start_time, price=price)
+    return ItemDetails(
+        item_id=item_id, title=title, start_time=start_time, price=price,
+        description=description,
+    )
+
+
+def get_active_listings(access_token: str, entries_per_page: int = 100) -> list[dict]:
+    """GetMyeBaySelling -> every currently-active listing, regardless of how
+    long ago it started (no time-window restriction, unlike GetSellerList -
+    important since GTC fixed-price listings can be active for a very long
+    time, and that's exactly what this tool needs to find). Paginates until
+    all pages are read. Returns light records (ItemID/Title/StartTime/
+    CurrentPrice/Quantity) - full Description isn't included here, see
+    get_item() for that."""
+    results: list[dict] = []
+    page = 1
+    while True:
+        req = ET.Element("GetMyeBaySellingRequest", xmlns="urn:ebay:apis:eBLBaseComponents")
+        active = ET.SubElement(req, "ActiveList")
+        ET.SubElement(active, "Sort").text = "TimeLeft"
+        pagination = ET.SubElement(active, "Pagination")
+        ET.SubElement(pagination, "EntriesPerPage").text = str(entries_per_page)
+        ET.SubElement(pagination, "PageNumber").text = str(page)
+
+        root = _trading_call(access_token, "GetMyeBaySelling", req)
+        active_list = root.find(f"{NS}ActiveList")
+        if active_list is None:
+            break
+
+        item_array = active_list.find(f"{NS}ItemArray")
+        if item_array is not None:
+            for item in item_array.findall(f"{NS}Item"):
+                item_id = item.findtext(f"{NS}ItemID")
+                title = item.findtext(f"{NS}Title", default="")
+                start_time = item.findtext(f"{NS}ListingDetails/{NS}StartTime")
+                price_text = item.findtext(f"{NS}SellingStatus/{NS}CurrentPrice")
+                price = float(price_text) if price_text else None
+                results.append(
+                    {
+                        "item_id": item_id,
+                        "title": title,
+                        "start_time": start_time,
+                        "price": price,
+                    }
+                )
+
+        pagination_result = active_list.find(f"{NS}PaginationResult")
+        total_pages = (
+            int(pagination_result.findtext(f"{NS}TotalNumberOfPages", default="1"))
+            if pagination_result is not None
+            else 1
+        )
+        if page >= total_pages:
+            break
+        page += 1
+
+    return results
 
 
 def end_fixed_price_item(
