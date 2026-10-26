@@ -2,7 +2,7 @@
   "config": {
     "age_threshold_days": 30,
     "weekly_refresh_cap": 10,
-    "last_run": "2026-10-25T23:15:08.621119+00:00",
+    "last_run": "2026-10-26T19:05:56.620236+00:00",
     "note": "Real synced listings from the pixel-surgeon-game-lab eBay account (production), synced 2026-10-24. 83 non-game listings (DVDs, vinyl, trading cards, collectibles, accessories) were excluded entirely - see project doc / README for details."
   },
   "listings": [
@@ -167,23 +167,29 @@
     },
     {
       "sku": "EBAY-394354631885",
-      "ebay_item_id": "394354631885",
+      "ebay_item_id": "920077003682",
       "game_title": "Pariah",
       "platform": "Xbox",
       "condition": "used",
-      "current_title": "Pariah - Microsoft Xbox ",
+      "current_title": "Pariah - Microsoft Xbox",
       "description_original": "<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\">\"Pariah\" is a 2005 video game released for the Microsoft Xbox console. It falls under the shooter genre and is rated M for Mature. The game is published by Groove Publishing and includes the manual. This complete edition offers an immersive gaming experience for players looking for action-packed gameplay and a thrilling storyline.</p>",
-      "description_current": "<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\">\"Pariah\" is a 2005 video game released for the Microsoft Xbox console. It falls under the shooter genre and is rated M for Mature. The game is published by Groove Publishing and includes the manual. This complete edition offers an immersive gaming experience for players looking for action-packed gameplay and a thrilling storyline.</p>",
-      "price": 8.95,
+      "description_current": "<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\">\"Pariah\" is a 2005 video game released for the Microsoft Xbox console. It falls under the shooter genre and is rated M for Mature. The game is published by Groove Publishing and includes the manual. This complete edition offers an immersive gaming experience for players looking for action-packed gameplay and a thrilling storyline.</p>\n<p>Shipped with extra care and carefully packaged.</p>",
+      "price": 8.86,
       "first_listed_date": "2022-11-28T19:48:51.000Z",
-      "last_refreshed_date": null,
-      "refresh_count": 0,
-      "last_title_variant_key": null,
-      "refresh_history": [],
+      "last_refreshed_date": "2026-10-26T19:05:56.620236+00:00",
+      "refresh_count": 1,
+      "last_title_variant_key": "tags:Microsoft Xbox:-:normal",
+      "refresh_history": [
+        {
+          "date": "2026-10-26T19:05:56.620236+00:00",
+          "title": "Pariah - Microsoft Xbox",
+          "price": 8.86
+        }
+      ],
       "publisher": null,
       "release_year": null,
       "original_price": 8.95,
-      "last_description_variant": null,
+      "last_description_variant": "Shipped with extra care and carefully packaged.",
       "needs_review": false
     },
     {
