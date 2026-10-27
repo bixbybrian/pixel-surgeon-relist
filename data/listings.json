@@ -2,7 +2,7 @@
   "config": {
     "age_threshold_days": 30,
     "weekly_refresh_cap": 10,
-    "last_run": "2026-10-26T19:05:56.620236+00:00",
+    "last_run": "2026-10-27T18:37:30.455683+00:00",
     "note": "Real synced listings from the pixel-surgeon-game-lab eBay account (production), synced 2026-10-24. 83 non-game listings (DVDs, vinyl, trading cards, collectibles, accessories) were excluded entirely - see project doc / README for details."
   },
   "listings": [
@@ -299,23 +299,29 @@
     },
     {
       "sku": "EBAY-394360664330",
-      "ebay_item_id": "394360664330",
+      "ebay_item_id": "920080028294",
       "game_title": "Elite Forces: Unit 77",
       "platform": "DS",
       "condition": "used",
-      "current_title": "Elite Forces: Unit 77 - Nintendo DS",
+      "current_title": "ELITE FORCES: UNIT 77 - NINTENDO DS",
       "description_original": "<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\">Elite Forces: Unit 77 is a shooter video game released for the Nintendo DS in 2009. Developed by Deep Silver, this game is rated T-Teen and features action-packed gameplay where players control a unit of elite forces in various missions. The PAL version game released in Germany offers players an immersive gaming experience on the handheld console, with the game's genre and unit type fitting the gameplay perfectly.</p>",
-      "description_current": "<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\">Elite Forces: Unit 77 is a shooter video game released for the Nintendo DS in 2009. Developed by Deep Silver, this game is rated T-Teen and features action-packed gameplay where players control a unit of elite forces in various missions. The PAL version game released in Germany offers players an immersive gaming experience on the handheld console, with the game's genre and unit type fitting the gameplay perfectly.</p>",
-      "price": 34.95,
+      "description_current": "<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\">Elite Forces: Unit 77 is a shooter video game released for the Nintendo DS in 2009. Developed by Deep Silver, this game is rated T-Teen and features action-packed gameplay where players control a unit of elite forces in various missions. The PAL version game released in Germany offers players an immersive gaming experience on the handheld console, with the game's genre and unit type fitting the gameplay perfectly.</p>\n<p>Shipped with extra care and carefully packaged.</p>",
+      "price": 34.6,
       "first_listed_date": "2022-12-02T21:37:20.000Z",
-      "last_refreshed_date": null,
-      "refresh_count": 0,
-      "last_title_variant_key": null,
-      "refresh_history": [],
+      "last_refreshed_date": "2026-10-27T18:37:30.455683+00:00",
+      "refresh_count": 1,
+      "last_title_variant_key": "tags:Nintendo DS:-:upper",
+      "refresh_history": [
+        {
+          "date": "2026-10-27T18:37:30.455683+00:00",
+          "title": "ELITE FORCES: UNIT 77 - NINTENDO DS",
+          "price": 34.6
+        }
+      ],
       "publisher": null,
       "release_year": null,
       "original_price": 34.95,
-      "last_description_variant": null,
+      "last_description_variant": "Shipped with extra care and carefully packaged.",
       "needs_review": false
     },
     {
