@@ -2,7 +2,7 @@
   "config": {
     "age_threshold_days": 30,
     "weekly_refresh_cap": 10,
-    "last_run": "2026-10-27T18:37:30.455683+00:00",
+    "last_run": "2026-10-28T18:43:31.788281+00:00",
     "note": "Real synced listings from the pixel-surgeon-game-lab eBay account (production), synced 2026-10-24. 83 non-game listings (DVDs, vinyl, trading cards, collectibles, accessories) were excluded entirely - see project doc / README for details."
   },
   "listings": [
