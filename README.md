@@ -88,6 +88,24 @@ secrets (`EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET`, `EBAY_REFRESH_TOKEN`,
 `EBAY_ENV`) are added in the repo's Settings → Secrets and variables →
 Actions - that's the one remaining step before the schedule runs for real.
 
+## Trading cards (phase 2, added 2026-11-02) — architecture built, NOT yet live
+
+A second category, trading cards, now shares this same tool: `data/cards.json`
+holds all 25 of the real current trading-card listings, and
+`src/card_title_rules.py` is a dedicated title-variation engine for them with
+a much larger locked core than games (franchise name, card count, and any
+completeness claim like "Complete Set" or "About 100 Mixed Duplicates" are
+locked verbatim per listing - only adjectives and whole-block ordering vary).
+`src/relist_worker.py` now pools games and cards into one shared oldest-first
+selection against the same `REFRESH_CAP_PER_RUN`, rather than giving cards a
+separate cap.
+
+**Every entry in `data/cards.json` is flagged `needs_review: true`**, the
+same permanent-exclusion gate used for the non-game listings on the games
+side - cards are completely excluded from the live sweep until a human
+clears that flag per listing, after reviewing a dry-run preview of the
+actual generated titles. Nothing has touched eBay for cards yet.
+
 ## eBay Developer setup
 
 1. ✅ Register at [developer.ebay.com](https://developer.ebay.com/) (free,

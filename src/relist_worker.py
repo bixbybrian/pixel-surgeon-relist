@@ -1,19 +1,36 @@
 """
-Weekly sweep: find listings older than AGE_THRESHOLD_DAYS, refresh up to
-WEEKLY_REFRESH_CAP of them (oldest first), and write the updated database
-back to disk.
+Weekday sweep across ALL categories: finds listings older than
+AGE_THRESHOLD_DAYS in BOTH data/listings.json (games) and data/cards.json
+(trading cards), refreshes up to REFRESH_CAP_PER_RUN of them from one
+unified oldest-first pool, and writes each touched database back to its own
+file.
+
+Unified pool, not per-category caps: a card listed in 2026-10 and a game
+listed in 2026-09 are compared on the same "how stale is this" axis and
+compete for the same shared slots. This is deliberate - the whole point of
+REFRESH_CAP_PER_RUN / the weekday cron cadence (see config.py) is one small,
+steady trickle across the whole shop, not an extra trickle bolted on per
+category.
+
+Category dispatch, per listing:
+  - listing["category"] == "trading_card" -> card_title_rules.generate_card_title()
+    (locked prefix/core blocks; see that module's docstring)
+  - anything else (games predate the "category" field and simply don't have
+    one - absence of the field means "game", by historical convention) ->
+    title_rules.generate_title() (locked game_title; platform/condition vary)
 
 Run modes:
   --dry-run   Always safe. Prints exactly what would change; never calls
-              eBay; still updates data/listings.json's "history" only if
-              you also pass --write (so you can preview without touching
-              the file at all).
+              eBay; still updates both db files' "history" only if you also
+              pass --write (so you can preview without touching either file
+              at all).
   (default)   Requires real eBay credentials in the environment. Calls
               ebay_client.end_and_relist for real.
 
 Usage:
   python -m src.relist_worker --dry-run
   python -m src.relist_worker --dry-run --write
+  python -m src.relist_worker --dry-run --db path/to/games.json --cards-db path/to/cards.json
 """
 
 from __future__ import annotations
@@ -22,9 +39,12 @@ import argparse
 import json
 from datetime import datetime, timedelta, timezone
 
-from . import config, ebay_client, title_rules
+from . import card_title_rules, config, ebay_client, title_rules
 
 UTC = timezone.utc
+
+CATEGORY_GAME = "game"
+CATEGORY_CARD = "trading_card"
 
 
 def _parse_dt(value: str) -> datetime:
@@ -46,25 +66,42 @@ def save_db(path: str, db: dict) -> None:
         f.write("\n")
 
 
-def select_stale_listings(db: dict, now: datetime) -> list[dict]:
+def _category_of(listing: dict) -> str:
+    # Games predate the "category" field entirely - no key at all means
+    # "game", not a data error. Cards always carry category="trading_card"
+    # explicitly (set when data/cards.json was built).
+    return listing.get("category") or CATEGORY_GAME
+
+
+def select_stale_listings(dbs: dict[str, dict], now: datetime) -> list[tuple[str, dict]]:
+    """`dbs` maps a source key (e.g. "games"/"cards") to its already-loaded
+    db dict. Returns a single oldest-first list of (source_key, listing)
+    pairs, pooled across every source and capped ONCE at
+    config.REFRESH_CAP_PER_RUN - see module docstring on why this is one
+    shared pool rather than a cap per category."""
     threshold = timedelta(days=config.AGE_THRESHOLD_DAYS)
-    eligible = []
-    for listing in db["listings"]:
-        # needs_review=True means sync_inventory.py couldn't confidently
-        # parse a platform/condition for this listing (e.g. it isn't a game
-        # at all, or uses phrasing the title parser doesn't recognize yet).
-        # Permanently out of scope for the automated sweep until a human
-        # clears the flag by hand in the database file - never auto-touched
-        # on the strength of a guess.
-        if listing.get("needs_review"):
-            continue
-        anchor = listing.get("last_refreshed_date") or listing["first_listed_date"]
-        age = now - _parse_dt(anchor)
-        if age >= threshold:
-            eligible.append((age, listing))
-    # Oldest (largest age) first.
-    eligible.sort(key=lambda pair: pair[0], reverse=True)
-    return [listing for _age, listing in eligible[: config.REFRESH_CAP_PER_RUN]]
+    eligible: list[tuple[timedelta, str, dict]] = []
+    for source_key, db in dbs.items():
+        for listing in db["listings"]:
+            # needs_review=True means a human hasn't cleared this listing
+            # for the automated sweep yet (sync_inventory.py couldn't
+            # confidently parse a game platform, or - for cards - every
+            # entry starts this way pending Brian's review of the title
+            # methodology). Permanently out of scope until cleared by hand
+            # in the database file - never auto-cleared on a guess, same
+            # gate for every category.
+            if listing.get("needs_review"):
+                continue
+            anchor = listing.get("last_refreshed_date") or listing["first_listed_date"]
+            age = now - _parse_dt(anchor)
+            if age >= threshold:
+                eligible.append((age, source_key, listing))
+    # Oldest (largest age) first, across the whole pool.
+    eligible.sort(key=lambda triple: triple[0], reverse=True)
+    return [
+        (source_key, listing)
+        for _age, source_key, listing in eligible[: config.REFRESH_CAP_PER_RUN]
+    ]
 
 
 def pick_description_append(listing: dict) -> str | None:
@@ -72,7 +109,8 @@ def pick_description_append(listing: dict) -> str | None:
     "no line" - as a valid choice) using refresh_count as a pointer, so a
     listing cycles through all the options over time instead of ping-ponging
     between just two. Guaranteed to differ from last cycle's choice whenever
-    the pool has more than one option."""
+    the pool has more than one option. Same logic for every category - the
+    pool is deliberately generic enough to be true of any listing."""
     pool = config.DESCRIPTION_APPEND_POOL
     if not pool:
         return None
@@ -107,8 +145,20 @@ def compute_new_price(listing: dict) -> float:
     return max(proposed, floor)
 
 
-def refresh_one(listing: dict, now: datetime, dry_run: bool) -> dict:
-    variant = title_rules.generate_title(
+def _generate_new_title(listing: dict):
+    """Dispatches to the right title-variation engine for this listing's
+    category. Returns either a title_rules.TitleVariant or a
+    card_title_rules.CardTitleVariant - both are duck-typed the same way
+    (`.title`, `.variant_key`), so refresh_one() below doesn't need to care
+    which one it got."""
+    if _category_of(listing) == CATEGORY_CARD:
+        return card_title_rules.generate_card_title(
+            prefix=listing["prefix"],
+            core=listing["core"],
+            avoid_title=listing.get("current_title"),
+            refresh_count=listing.get("refresh_count", 0),
+        )
+    return title_rules.generate_title(
         game_title=listing["game_title"],
         platform_key=listing["platform"],
         condition_key=listing["condition"],
@@ -116,12 +166,17 @@ def refresh_one(listing: dict, now: datetime, dry_run: bool) -> dict:
         publisher=listing.get("publisher"),
         release_year=listing.get("release_year"),
     )
+
+
+def refresh_one(listing: dict, now: datetime, dry_run: bool) -> dict:
+    variant = _generate_new_title(listing)
     append_line = pick_description_append(listing)
     new_description = build_new_description(listing, append_line)
     new_price = compute_new_price(listing)
 
     action = {
         "sku": listing["sku"],
+        "category": _category_of(listing),
         "old_title": listing.get("current_title"),
         "new_title": variant.title,
         "description_changed": new_description != listing["description_current"],
@@ -153,13 +208,16 @@ def refresh_one(listing: dict, now: datetime, dry_run: bool) -> dict:
     return action
 
 
-def run(db_path: str, dry_run: bool, write: bool) -> list[dict]:
+def run(listings_path: str, cards_path: str, dry_run: bool, write: bool) -> list[dict]:
     now = _now()
-    db = load_db(db_path)
-    selected = select_stale_listings(db, now)
+    dbs = {
+        "games": load_db(listings_path),
+        "cards": load_db(cards_path),
+    }
+    selected = select_stale_listings(dbs, now)
 
     actions = []
-    for listing in selected:
+    for source_key, listing in selected:
         try:
             actions.append(refresh_one(listing, now, dry_run))
         except Exception as e:
@@ -170,21 +228,28 @@ def run(db_path: str, dry_run: bool, write: bool) -> list[dict]:
             actions.append({"sku": listing["sku"], "error": f"{type(e).__name__}: {e}"})
             break
 
-    db.setdefault("config", {})["last_run"] = now.isoformat()
     if write:
-        save_db(db_path, db)
+        paths = {"games": listings_path, "cards": cards_path}
+        for source_key, db in dbs.items():
+            db.setdefault("config", {})["last_run"] = now.isoformat()
+            save_db(paths[source_key], db)
 
     return actions
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--db", default=config.LISTINGS_DB_PATH)
+    parser.add_argument(
+        "--db", default=config.LISTINGS_DB_PATH, help="Games database path."
+    )
+    parser.add_argument(
+        "--cards-db", default=config.CARDS_DB_PATH, help="Trading-card database path."
+    )
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument(
         "--write",
         action="store_true",
-        help="Persist changes to the db file. Combine with --dry-run to "
+        help="Persist changes to both db files. Combine with --dry-run to "
         "preview file changes without calling eBay.",
     )
     args = parser.parse_args()
@@ -196,7 +261,7 @@ def main() -> None:
             "Use --dry-run to preview."
         )
 
-    actions = run(args.db, dry_run=args.dry_run, write=args.write)
+    actions = run(args.db, args.cards_db, dry_run=args.dry_run, write=args.write)
 
     print(f"Processed {len(actions)} listing(s):")
     for a in actions:

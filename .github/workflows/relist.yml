@@ -14,7 +14,7 @@ jobs:
   refresh-listings:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # needed to commit the updated data/listings.json back
+      contents: write  # needed to commit the updated data/listings.json and data/cards.json back
 
     steps:
       - name: Checkout repository
@@ -41,10 +41,10 @@ jobs:
         # and relists real listings.
         run: python -m src.relist_worker --write
 
-      - name: Commit updated listings database
+      - name: Commit updated listings databases
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/listings.json
+          git add data/listings.json data/cards.json
           git diff --staged --quiet || git commit -m "Relist sweep $(date -u +%Y-%m-%d)"
           git push

@@ -42,5 +42,22 @@ PRICE_ADJUSTMENT_ENABLED = True
 PRICE_ADJUSTMENT_PCT = float(os.getenv("PRICE_ADJUSTMENT_PCT", "0.01"))
 PRICE_FLOOR_MULTIPLIER = float(os.getenv("PRICE_FLOOR_MULTIPLIER", "0.85"))
 
-# Where the listings "database" lives.
+# Where each category's listings "database" lives.
 LISTINGS_DB_PATH = os.getenv("LISTINGS_DB_PATH", "data/listings.json")
+CARDS_DB_PATH = os.getenv("CARDS_DB_PATH", "data/cards.json")
+
+# Trading cards: a short word/phrase that can be added, removed, or moved
+# front-to-back on a refresh - never a fact (never a count, never a set/
+# manufacturer name, never a completeness claim - those are locked verbatim
+# per-listing, see card_title_rules.py). None ("no flavor word") is a
+# deliberate, valid rotation choice, same principle as DESCRIPTION_APPEND_POOL.
+# Modeled on "Vintage", a word Brian already uses himself across several of
+# his real card listings - these just give it rotating company. Edit freely.
+CARD_ADJECTIVE_POOL: list[str | None] = [
+    None,
+    "Vintage",
+    "Classic",
+    "Retro",
+    "Collectible",
+    "Nostalgic",
+]
