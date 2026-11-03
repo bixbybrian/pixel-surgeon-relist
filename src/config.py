@@ -45,6 +45,7 @@ PRICE_FLOOR_MULTIPLIER = float(os.getenv("PRICE_FLOOR_MULTIPLIER", "0.85"))
 # Where each category's listings "database" lives.
 LISTINGS_DB_PATH = os.getenv("LISTINGS_DB_PATH", "data/listings.json")
 CARDS_DB_PATH = os.getenv("CARDS_DB_PATH", "data/cards.json")
+VINYL_DB_PATH = os.getenv("VINYL_DB_PATH", "data/vinyl.json")
 
 # Trading cards: a short word/phrase that can be added, removed, or moved
 # front-to-back on a refresh - never a fact (never a count, never a set/
@@ -60,4 +61,19 @@ CARD_ADJECTIVE_POOL: list[str | None] = [
     "Retro",
     "Collectible",
     "Nostalgic",
+]
+
+# Vinyl: same role as CARD_ADJECTIVE_POOL - a style word, never a fact
+# (never a label, catalogue number, or format). Kept separate from the card
+# pool since it's tuned for record-collector language rather than card
+# language, even though several words overlap. See vinyl_title_rules.py for
+# the separate, condition-specific SEALED-phrase pool (not here - that one
+# only ever applies to confirmed-sealed records).
+VINYL_ADJECTIVE_POOL: list[str | None] = [
+    None,
+    "Vintage",
+    "Classic",
+    "Rare",
+    "Collectible",
+    "Scarce",
 ]

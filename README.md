@@ -106,6 +106,27 @@ side - cards are completely excluded from the live sweep until a human
 clears that flag per listing, after reviewing a dry-run preview of the
 actual generated titles. Nothing has touched eBay for cards yet.
 
+## Vinyl records (phase 3, added 2026-11-03) — architecture built, NOT yet live
+
+A third category, vinyl records, now shares this same tool: `data/vinyl.json`
+holds all 36 of the real current listings in eBay's own Music:Vinyl Records
+category (176985, pulled via `GetItem`'s `PrimaryCategory` field - the
+authoritative classifier, not a title-keyword guess). `src/vinyl_title_rules.py`
+locks artist/album/label/catalogue-number/format the same way cards lock
+their facts, and adds a separate `condition` ("sealed"/"used") dimension
+that behaves like games' condition words - a rotating style choice, never
+baked into the locked core text, and never implied for anything not
+confirmed sealed.
+
+**Every entry in `data/vinyl.json` is flagged `needs_review: true`**, same
+gate as cards - fully excluded from the live sweep until Brian clears it.
+Two things are flagged for his review before that happens: a likely
+duplicate listing (`VINYL-398422401952` / `VINYL-398422407815` - same
+description, catalogue number, and price under two different titles), and
+a couple of catalogue-number/label discrepancies between his planning doc
+and a couple of the real listings, resolved in the doc's favor pending his
+confirmation.
+
 ## eBay Developer setup
 
 1. ✅ Register at [developer.ebay.com](https://developer.ebay.com/) (free,

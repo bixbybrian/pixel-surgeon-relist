@@ -1,12 +1,12 @@
 """
 Weekday sweep across ALL categories: finds listings older than
-AGE_THRESHOLD_DAYS in BOTH data/listings.json (games) and data/cards.json
-(trading cards), refreshes up to REFRESH_CAP_PER_RUN of them from one
-unified oldest-first pool, and writes each touched database back to its own
-file.
+AGE_THRESHOLD_DAYS in data/listings.json (games), data/cards.json (trading
+cards), and data/vinyl.json (vinyl records), refreshes up to
+REFRESH_CAP_PER_RUN of them from one unified oldest-first pool, and writes
+each touched database back to its own file.
 
-Unified pool, not per-category caps: a card listed in 2026-10 and a game
-listed in 2026-09 are compared on the same "how stale is this" axis and
+Unified pool, not per-category caps: a record listed in 2026-09 and a game
+listed in 2026-10 are compared on the same "how stale is this" axis and
 compete for the same shared slots. This is deliberate - the whole point of
 REFRESH_CAP_PER_RUN / the weekday cron cadence (see config.py) is one small,
 steady trickle across the whole shop, not an extra trickle bolted on per
@@ -15,14 +15,17 @@ category.
 Category dispatch, per listing:
   - listing["category"] == "trading_card" -> card_title_rules.generate_card_title()
     (locked prefix/core blocks; see that module's docstring)
+  - listing["category"] == "vinyl_record" -> vinyl_title_rules.generate_vinyl_title()
+    (locked prefix/core blocks PLUS a separate sealed/used condition
+    dimension; see that module's docstring)
   - anything else (games predate the "category" field and simply don't have
     one - absence of the field means "game", by historical convention) ->
     title_rules.generate_title() (locked game_title; platform/condition vary)
 
 Run modes:
   --dry-run   Always safe. Prints exactly what would change; never calls
-              eBay; still updates both db files' "history" only if you also
-              pass --write (so you can preview without touching either file
+              eBay; still updates the db files' "history" only if you also
+              pass --write (so you can preview without touching any file
               at all).
   (default)   Requires real eBay credentials in the environment. Calls
               ebay_client.end_and_relist for real.
@@ -30,7 +33,8 @@ Run modes:
 Usage:
   python -m src.relist_worker --dry-run
   python -m src.relist_worker --dry-run --write
-  python -m src.relist_worker --dry-run --db path/to/games.json --cards-db path/to/cards.json
+  python -m src.relist_worker --dry-run --db path/to/games.json \
+      --cards-db path/to/cards.json --vinyl-db path/to/vinyl.json
 """
 
 from __future__ import annotations
@@ -39,12 +43,13 @@ import argparse
 import json
 from datetime import datetime, timedelta, timezone
 
-from . import card_title_rules, config, ebay_client, title_rules
+from . import card_title_rules, config, ebay_client, title_rules, vinyl_title_rules
 
 UTC = timezone.utc
 
 CATEGORY_GAME = "game"
 CATEGORY_CARD = "trading_card"
+CATEGORY_VINYL = "vinyl_record"
 
 
 def _parse_dt(value: str) -> datetime:
@@ -68,28 +73,28 @@ def save_db(path: str, db: dict) -> None:
 
 def _category_of(listing: dict) -> str:
     # Games predate the "category" field entirely - no key at all means
-    # "game", not a data error. Cards always carry category="trading_card"
-    # explicitly (set when data/cards.json was built).
+    # "game", not a data error. Cards and vinyl always carry their category
+    # explicitly (set when their database files were built).
     return listing.get("category") or CATEGORY_GAME
 
 
 def select_stale_listings(dbs: dict[str, dict], now: datetime) -> list[tuple[str, dict]]:
-    """`dbs` maps a source key (e.g. "games"/"cards") to its already-loaded
-    db dict. Returns a single oldest-first list of (source_key, listing)
-    pairs, pooled across every source and capped ONCE at
-    config.REFRESH_CAP_PER_RUN - see module docstring on why this is one
-    shared pool rather than a cap per category."""
+    """`dbs` maps a source key (e.g. "games"/"cards"/"vinyl") to its
+    already-loaded db dict. Returns a single oldest-first list of
+    (source_key, listing) pairs, pooled across every source and capped
+    ONCE at config.REFRESH_CAP_PER_RUN - see module docstring on why this
+    is one shared pool rather than a cap per category."""
     threshold = timedelta(days=config.AGE_THRESHOLD_DAYS)
     eligible: list[tuple[timedelta, str, dict]] = []
     for source_key, db in dbs.items():
         for listing in db["listings"]:
             # needs_review=True means a human hasn't cleared this listing
             # for the automated sweep yet (sync_inventory.py couldn't
-            # confidently parse a game platform, or - for cards - every
-            # entry starts this way pending Brian's review of the title
-            # methodology). Permanently out of scope until cleared by hand
-            # in the database file - never auto-cleared on a guess, same
-            # gate for every category.
+            # confidently parse a game platform, or - for cards/vinyl -
+            # every entry starts this way pending Brian's review of the
+            # title methodology). Permanently out of scope until cleared by
+            # hand in the database file - never auto-cleared on a guess,
+            # same gate for every category.
             if listing.get("needs_review"):
                 continue
             anchor = listing.get("last_refreshed_date") or listing["first_listed_date"]
@@ -147,14 +152,22 @@ def compute_new_price(listing: dict) -> float:
 
 def _generate_new_title(listing: dict):
     """Dispatches to the right title-variation engine for this listing's
-    category. Returns either a title_rules.TitleVariant or a
-    card_title_rules.CardTitleVariant - both are duck-typed the same way
-    (`.title`, `.variant_key`), so refresh_one() below doesn't need to care
-    which one it got."""
-    if _category_of(listing) == CATEGORY_CARD:
+    category. Returns a TitleVariant/CardTitleVariant/VinylTitleVariant -
+    all three are duck-typed the same way (`.title`, `.variant_key`), so
+    refresh_one() below doesn't need to care which one it got."""
+    category = _category_of(listing)
+    if category == CATEGORY_CARD:
         return card_title_rules.generate_card_title(
             prefix=listing["prefix"],
             core=listing["core"],
+            avoid_title=listing.get("current_title"),
+            refresh_count=listing.get("refresh_count", 0),
+        )
+    if category == CATEGORY_VINYL:
+        return vinyl_title_rules.generate_vinyl_title(
+            prefix=listing["prefix"],
+            core=listing["core"],
+            condition=listing["condition"],
             avoid_title=listing.get("current_title"),
             refresh_count=listing.get("refresh_count", 0),
         )
@@ -208,11 +221,14 @@ def refresh_one(listing: dict, now: datetime, dry_run: bool) -> dict:
     return action
 
 
-def run(listings_path: str, cards_path: str, dry_run: bool, write: bool) -> list[dict]:
+def run(
+    listings_path: str, cards_path: str, vinyl_path: str, dry_run: bool, write: bool
+) -> list[dict]:
     now = _now()
     dbs = {
         "games": load_db(listings_path),
         "cards": load_db(cards_path),
+        "vinyl": load_db(vinyl_path),
     }
     selected = select_stale_listings(dbs, now)
 
@@ -229,7 +245,7 @@ def run(listings_path: str, cards_path: str, dry_run: bool, write: bool) -> list
             break
 
     if write:
-        paths = {"games": listings_path, "cards": cards_path}
+        paths = {"games": listings_path, "cards": cards_path, "vinyl": vinyl_path}
         for source_key, db in dbs.items():
             db.setdefault("config", {})["last_run"] = now.isoformat()
             save_db(paths[source_key], db)
@@ -245,11 +261,14 @@ def main() -> None:
     parser.add_argument(
         "--cards-db", default=config.CARDS_DB_PATH, help="Trading-card database path."
     )
+    parser.add_argument(
+        "--vinyl-db", default=config.VINYL_DB_PATH, help="Vinyl-record database path."
+    )
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument(
         "--write",
         action="store_true",
-        help="Persist changes to both db files. Combine with --dry-run to "
+        help="Persist changes to all db files. Combine with --dry-run to "
         "preview file changes without calling eBay.",
     )
     args = parser.parse_args()
@@ -261,7 +280,9 @@ def main() -> None:
             "Use --dry-run to preview."
         )
 
-    actions = run(args.db, args.cards_db, dry_run=args.dry_run, write=args.write)
+    actions = run(
+        args.db, args.cards_db, args.vinyl_db, dry_run=args.dry_run, write=args.write
+    )
 
     print(f"Processed {len(actions)} listing(s):")
     for a in actions:

@@ -117,6 +117,8 @@ class ItemDetails:
     start_time: str | None  # ISO-ish string straight from eBay, or None if absent
     price: float | None
     description: str | None = None
+    category_id: str | None = None
+    category_name: str | None = None
 
 
 class EbayApiError(RuntimeError):
@@ -179,10 +181,15 @@ def get_item(access_token: str, item_id: str) -> ItemDetails:
     price_text = item.findtext(f"{NS}StartPrice")
     price = float(price_text) if price_text else None
     description = item.findtext(f"{NS}Description")
+    # eBay's own category, straight from the listing - the authoritative
+    # classifier for "is this a record/vinyl listing" (or any other
+    # category), rather than guessing from title keywords alone.
+    category_id = item.findtext(f"{NS}PrimaryCategory/{NS}CategoryID")
+    category_name = item.findtext(f"{NS}PrimaryCategory/{NS}CategoryName")
 
     return ItemDetails(
         item_id=item_id, title=title, start_time=start_time, price=price,
-        description=description,
+        description=description, category_id=category_id, category_name=category_name,
     )
 
 
