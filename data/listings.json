@@ -490,7 +490,11 @@
       "release_year": null,
       "original_price": 7.95,
       "last_description_variant": null,
-      "needs_review": false
+      "needs_review": true,
+      "last_error": {
+        "date": "2026-11-04T20:21:38+00:00",
+        "error": "EbayApiError: EndFixedPriceItem failed: The auction has been closed."
+      }
     },
     {
       "sku": "EBAY-394362420098",

@@ -237,12 +237,27 @@ def run(
         try:
             actions.append(refresh_one(listing, now, dry_run))
         except Exception as e:
-            # Stop the batch on the first real failure rather than silently
-            # skipping items or leaving a listing half-updated (ended on eBay
-            # but never relisted). Whatever succeeded before this item is
-            # still recorded in `actions` and, if --write was passed, saved.
-            actions.append({"sku": listing["sku"], "error": f"{type(e).__name__}: {e}"})
-            break
+            # A failed attempt must never leave the listing untouched - if it
+            # does, select_stale_listings() just picks the exact same "oldest"
+            # listing again on the very next run, forever. That's not
+            # hypothetical: a sold/ended PS3 listing (EBAY-394362394218,
+            # "The Evil Within") sat at the front of the oldest-first queue
+            # and failed EndFixedPriceItem with "The auction has been closed"
+            # every single weekday from 2026-10-27 through (at least)
+            # 2026-11-04 - nine straight "successful" GitHub Actions runs that
+            # silently refreshed nothing at all, games/cards/vinyl included,
+            # because this one stale record was permanently first in line.
+            #
+            # Fix: flag the failing listing needs_review (same gate a human
+            # already has to clear elsewhere) and record the error on it, so
+            # it's excluded from every future sweep until someone looks at
+            # it - then keep going rather than aborting the whole run, so one
+            # bad listing can never again block everything behind it.
+            err_msg = f"{type(e).__name__}: {e}"
+            actions.append({"sku": listing["sku"], "error": err_msg})
+            listing["needs_review"] = True
+            listing["last_error"] = {"date": now.isoformat(), "error": err_msg}
+            continue
 
     if write:
         paths = {"games": listings_path, "cards": cards_path, "vinyl": vinyl_path}
