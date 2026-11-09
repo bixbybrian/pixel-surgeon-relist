@@ -2,7 +2,7 @@
   "config": {
     "age_threshold_days": 30,
     "weekly_refresh_cap": 10,
-    "last_run": "2026-11-06T19:54:04.265266+00:00",
+    "last_run": "2026-11-09T22:56:01.100140+00:00",
     "note": "Real synced listings from the pixel-surgeon-game-lab eBay account (production), synced 2026-10-24. 83 non-game listings (DVDs, vinyl, trading cards, collectibles, accessories) were excluded entirely - see project doc / README for details."
   },
   "listings": [
@@ -552,23 +552,29 @@
     },
     {
       "sku": "EBAY-394362558908",
-      "ebay_item_id": "394362558908",
+      "ebay_item_id": "920123477971",
       "game_title": "Perfect Dark Zero",
       "platform": "Xbox360",
       "condition": "used",
-      "current_title": "Perfect Dark Zero - Microsoft Xbox 360",
+      "current_title": "PERFECT DARK ZERO - MICROSOFT XBOX 360",
       "description_original": "<span style=\"color: rgb(51, 51, 51); font-family: Skin-market-sans; font-size: 18px; font-weight: 700;\">Perfect Dark Zero (Microsoft Xbox 360, 2005) - European PAL Version. No manual as seen in photos.</span>",
-      "description_current": "<span style=\"color: rgb(51, 51, 51); font-family: Skin-market-sans; font-size: 18px; font-weight: 700;\">Perfect Dark Zero (Microsoft Xbox 360, 2005) - European PAL Version. No manual as seen in photos.</span>",
-      "price": 5.95,
+      "description_current": "<span style=\"color: rgb(51, 51, 51); font-family: Skin-market-sans; font-size: 18px; font-weight: 700;\">Perfect Dark Zero (Microsoft Xbox 360, 2005) - European PAL Version. No manual as seen in photos.</span>\n<p>Shipped with extra care and carefully packaged.</p>",
+      "price": 5.89,
       "first_listed_date": "2022-12-04T06:48:03.000Z",
-      "last_refreshed_date": null,
-      "refresh_count": 0,
-      "last_title_variant_key": null,
-      "refresh_history": [],
+      "last_refreshed_date": "2026-11-09T22:56:01.100140+00:00",
+      "refresh_count": 1,
+      "last_title_variant_key": "tags:Microsoft Xbox 360:-:upper",
+      "refresh_history": [
+        {
+          "date": "2026-11-09T22:56:01.100140+00:00",
+          "title": "PERFECT DARK ZERO - MICROSOFT XBOX 360",
+          "price": 5.89
+        }
+      ],
       "publisher": null,
       "release_year": null,
       "original_price": 5.95,
-      "last_description_variant": null,
+      "last_description_variant": "Shipped with extra care and carefully packaged.",
       "needs_review": false
     },
     {
