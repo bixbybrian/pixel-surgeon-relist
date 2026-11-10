@@ -2,7 +2,7 @@
   "config": {
     "age_threshold_days": 30,
     "weekly_refresh_cap": 10,
-    "last_run": "2026-11-09T22:56:01.100140+00:00",
+    "last_run": "2026-11-10T20:22:14.558875+00:00",
     "note": "Real synced listings from the pixel-surgeon-game-lab eBay account (production), synced 2026-10-24. 83 non-game listings (DVDs, vinyl, trading cards, collectibles, accessories) were excluded entirely - see project doc / README for details."
   },
   "listings": [
@@ -579,23 +579,29 @@
     },
     {
       "sku": "EBAY-394362569847",
-      "ebay_item_id": "394362569847",
+      "ebay_item_id": "920127542514",
       "game_title": "Murdered: Soul Suspect",
       "platform": "PS3",
       "condition": "used",
-      "current_title": "Murdered: Soul Suspect - Sony PlayStation 3",
+      "current_title": "Murdered: Soul Suspect - Sony PlayStation 3 PS3",
       "description_original": "<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\">\"Murdered: Soul Suspect\" for Sony PlayStation 3 is a 2014 action-adventure game published by Square Enix. Step into a supernatural mystery where you play as detective Ronan O'Connor, solving your own murder while exploring the city of Salem. Use ghostly abilities to investigate crime scenes, uncover clues, and confront dark spirits in this story-driven adventure.</p><p class=\"isSelectedEnd\">Please review the photos carefully for the item's overall condition and exactly what is included. The item shown is the one you will receive. Ships securely packaged with care.<br><br>Platform: Sony PlayStation 3 (PS3)<br>Title: Murdered: Soul Suspect<br>Genre: Action Adventure, Mystery<br>Publisher: Square Enix</p>",
-      "description_current": "<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\">\"Murdered: Soul Suspect\" for Sony PlayStation 3 is a 2014 action-adventure game published by Square Enix. Step into a supernatural mystery where you play as detective Ronan O'Connor, solving your own murder while exploring the city of Salem. Use ghostly abilities to investigate crime scenes, uncover clues, and confront dark spirits in this story-driven adventure.</p><p class=\"isSelectedEnd\">Please review the photos carefully for the item's overall condition and exactly what is included. The item shown is the one you will receive. Ships securely packaged with care.<br><br>Platform: Sony PlayStation 3 (PS3)<br>Title: Murdered: Soul Suspect<br>Genre: Action Adventure, Mystery<br>Publisher: Square Enix</p>",
-      "price": 12.95,
+      "description_current": "<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\">\"Murdered: Soul Suspect\" for Sony PlayStation 3 is a 2014 action-adventure game published by Square Enix. Step into a supernatural mystery where you play as detective Ronan O'Connor, solving your own murder while exploring the city of Salem. Use ghostly abilities to investigate crime scenes, uncover clues, and confront dark spirits in this story-driven adventure.</p><p class=\"isSelectedEnd\">Please review the photos carefully for the item's overall condition and exactly what is included. The item shown is the one you will receive. Ships securely packaged with care.<br><br>Platform: Sony PlayStation 3 (PS3)<br>Title: Murdered: Soul Suspect<br>Genre: Action Adventure, Mystery<br>Publisher: Square Enix</p>\n<p>Shipped with extra care and carefully packaged.</p>",
+      "price": 12.82,
       "first_listed_date": "2022-12-04T06:56:07.000Z",
-      "last_refreshed_date": null,
-      "refresh_count": 0,
-      "last_title_variant_key": null,
-      "refresh_history": [],
+      "last_refreshed_date": "2026-11-10T20:22:14.558875+00:00",
+      "refresh_count": 1,
+      "last_title_variant_key": "tags:Sony PlayStation 3 PS3:-:normal",
+      "refresh_history": [
+        {
+          "date": "2026-11-10T20:22:14.558875+00:00",
+          "title": "Murdered: Soul Suspect - Sony PlayStation 3 PS3",
+          "price": 12.82
+        }
+      ],
       "publisher": null,
       "release_year": null,
       "original_price": 12.95,
-      "last_description_variant": null,
+      "last_description_variant": "Shipped with extra care and carefully packaged.",
       "needs_review": false
     },
     {
