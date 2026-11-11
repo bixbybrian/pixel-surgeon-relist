@@ -2,7 +2,7 @@
   "config": {
     "age_threshold_days": 30,
     "note": "Trading-card category, built 2026-11-02 from the real live account. prefix/core hand-transcribed verbatim from each listing's actual current title - never invented. needs_review=True on every entry until Brian reviews the dry-run preview and the methodology, same gate used for games.",
-    "last_run": "2026-11-10T20:22:14.558875+00:00"
+    "last_run": "2026-11-11T20:05:20.835024+00:00"
   },
   "listings": [
     {
