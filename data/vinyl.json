@@ -2,7 +2,7 @@
   "config": {
     "age_threshold_days": 30,
     "note": "Vinyl-record category, built 2026-11-03 from the real live account (eBay category 176985, Music:Vinyl Records). For listings covered by Brian's sell-copy planning doc (EBAY-LISTING-COPY.txt, dated 22 Sep 2026), prefix/core/description use HIS DOC COPY as the real target content (even where the live title was still older/thinner) - Brian confirmed this 2026-11-03. For listings not covered by that doc (an older batch), prefix/core/description are hand-transcribed verbatim from the actual live title/description - never invented. needs_review=True on every entry until Brian reviews the dry-run preview, same gate used for games and cards. KNOWN ISSUE: VINYL-398422401952 (\"How The West Was Won\") and VINYL-398422407815 (\"Meet The Best In The West\") share the exact same description/catalogue number (RCA PRM-194) and price - almost certainly the same physical record listed twice under two different titles. Flagged for Brian, not merged or removed here.",
-    "last_run": "2026-11-12T20:43:05.161025+00:00"
+    "last_run": "2026-11-13T20:25:16.938916+00:00"
   },
   "listings": [
     {

@@ -2,7 +2,7 @@
   "config": {
     "age_threshold_days": 30,
     "weekly_refresh_cap": 10,
-    "last_run": "2026-11-12T20:43:05.161025+00:00",
+    "last_run": "2026-11-13T20:25:16.938916+00:00",
     "note": "Real synced listings from the pixel-surgeon-game-lab eBay account (production), synced 2026-10-24. 83 non-game listings (DVDs, vinyl, trading cards, collectibles, accessories) were excluded entirely - see project doc / README for details."
   },
   "listings": [
@@ -870,23 +870,29 @@
     },
     {
       "sku": "EBAY-394381260503",
-      "ebay_item_id": "394381260503",
+      "ebay_item_id": "920140168749",
       "game_title": "Saints Row IV: Commander in Chief Edition",
       "platform": "PS3",
       "condition": "used",
-      "current_title": "Saints Row IV: Commander in Chief Edition - Sony PlayStation 3 PS3",
+      "current_title": "SAINTS ROW IV: COMMANDER IN CHIEF EDITION - SONY PLAYSTATION 3 PS3",
       "description_original": "<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\">The Saints Row IV: Commander in Chief Edition for Sony PlayStation 3 includes the action and adventure game with a unique twist in the Saints Row Series. Published by Deep Silver, the game offers a complete edition with features like multiplayer gameplay, a manual included, and a sub-genre of boxing. Set in a world where players can supercharge themselves with alien DNA and control elements of their surroundings, this 2013 release is rated M for Mature and includes the original game along with additional content in this special edition. Made in the United States, this PAL region game is a must-have for fans of the franchise.</p>",
-      "description_current": "<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\">The Saints Row IV: Commander in Chief Edition for Sony PlayStation 3 includes the action and adventure game with a unique twist in the Saints Row Series. Published by Deep Silver, the game offers a complete edition with features like multiplayer gameplay, a manual included, and a sub-genre of boxing. Set in a world where players can supercharge themselves with alien DNA and control elements of their surroundings, this 2013 release is rated M for Mature and includes the original game along with additional content in this special edition. Made in the United States, this PAL region game is a must-have for fans of the franchise.</p>",
-      "price": 9.95,
+      "description_current": "<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\">The Saints Row IV: Commander in Chief Edition for Sony PlayStation 3 includes the action and adventure game with a unique twist in the Saints Row Series. Published by Deep Silver, the game offers a complete edition with features like multiplayer gameplay, a manual included, and a sub-genre of boxing. Set in a world where players can supercharge themselves with alien DNA and control elements of their surroundings, this 2013 release is rated M for Mature and includes the original game along with additional content in this special edition. Made in the United States, this PAL region game is a must-have for fans of the franchise.</p>\n<p>Shipped with extra care and carefully packaged.</p>",
+      "price": 9.85,
       "first_listed_date": "2022-12-16T08:01:10.000Z",
-      "last_refreshed_date": null,
-      "refresh_count": 0,
-      "last_title_variant_key": null,
-      "refresh_history": [],
+      "last_refreshed_date": "2026-11-13T20:25:16.938916+00:00",
+      "refresh_count": 1,
+      "last_title_variant_key": "tags:Sony PlayStation 3 PS3:-:upper",
+      "refresh_history": [
+        {
+          "date": "2026-11-13T20:25:16.938916+00:00",
+          "title": "SAINTS ROW IV: COMMANDER IN CHIEF EDITION - SONY PLAYSTATION 3 PS3",
+          "price": 9.85
+        }
+      ],
       "publisher": null,
       "release_year": null,
       "original_price": 9.95,
-      "last_description_variant": null,
+      "last_description_variant": "Shipped with extra care and carefully packaged.",
       "needs_review": false
     },
     {
