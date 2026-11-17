@@ -2,7 +2,7 @@
   "config": {
     "age_threshold_days": 30,
     "weekly_refresh_cap": 10,
-    "last_run": "2026-11-16T22:48:18.842885+00:00",
+    "last_run": "2026-11-17T21:37:19.345209+00:00",
     "note": "Real synced listings from the pixel-surgeon-game-lab eBay account (production), synced 2026-10-24. 83 non-game listings (DVDs, vinyl, trading cards, collectibles, accessories) were excluded entirely - see project doc / README for details."
   },
   "listings": [
@@ -221,23 +221,29 @@
     },
     {
       "sku": "EBAY-394398733354",
-      "ebay_item_id": "394398733354",
+      "ebay_item_id": "920153980142",
       "game_title": "High School Musical 3: Senior Year",
       "platform": "DS",
       "condition": "used",
-      "current_title": "High School Musical 3: Senior Year - Nintendo DS",
+      "current_title": "HIGH SCHOOL MUSICAL 3: SENIOR YEAR - NINTENDO DS",
       "description_original": "<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\"><b>Title:&#160;</b>High School Musical 3: Senior Year - Nintendo DS</p>\n<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\"><b>Description:&#160;</b>Up for sale is <b>High School Musical 3: Senior Year</b> for the <b>Nintendo DS</b>, released in <b>2008</b>. This is the <b>PAL version from Germany</b>.</p>\n<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\">The game is tested and works properly. Great for fans of the High School Musical series or Nintendo DS collectors looking to add a European PAL release to their collection.</p>\n<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\"><b>Details:</b></p>\n<ul style=\"margin-top:0; margin-bottom:0;\">\n<li dir=\"ltr\">Platform: Nintendo DS</li>\n<li dir=\"ltr\">Title: High School Musical 3: Senior Year</li>\n<li dir=\"ltr\">Region: PAL</li>\n<li dir=\"ltr\">Country: Germany</li>\n<li dir=\"ltr\">Release Year: 2008</li>\n<li dir=\"ltr\">Language: English (PAL release)</li>\n<li dir=\"ltr\">Condition: Used, good working condition</li>\n<li dir=\"ltr\">Authentic original Nintendo DS game</li>\n</ul>\n<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\"><b>Notes:</b></p>\n<ul style=\"margin-top:0; margin-bottom:0;\">\n<li dir=\"ltr\">PAL version &#8212; compatible with all Nintendo DS systems (DS systems are region-free)</li>\n<li dir=\"ltr\">Please review photos for exact condition of the cartridge</li>\n<li dir=\"ltr\">Ships quickly and securely. Feel free to message me with any questions before purchasing. Thanks for looking! &#127918;</li>\n</ul>",
-      "description_current": "<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\"><b>Title:&#160;</b>High School Musical 3: Senior Year - Nintendo DS</p>\n<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\"><b>Description:&#160;</b>Up for sale is <b>High School Musical 3: Senior Year</b> for the <b>Nintendo DS</b>, released in <b>2008</b>. This is the <b>PAL version from Germany</b>.</p>\n<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\">The game is tested and works properly. Great for fans of the High School Musical series or Nintendo DS collectors looking to add a European PAL release to their collection.</p>\n<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\"><b>Details:</b></p>\n<ul style=\"margin-top:0; margin-bottom:0;\">\n<li dir=\"ltr\">Platform: Nintendo DS</li>\n<li dir=\"ltr\">Title: High School Musical 3: Senior Year</li>\n<li dir=\"ltr\">Region: PAL</li>\n<li dir=\"ltr\">Country: Germany</li>\n<li dir=\"ltr\">Release Year: 2008</li>\n<li dir=\"ltr\">Language: English (PAL release)</li>\n<li dir=\"ltr\">Condition: Used, good working condition</li>\n<li dir=\"ltr\">Authentic original Nintendo DS game</li>\n</ul>\n<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\"><b>Notes:</b></p>\n<ul style=\"margin-top:0; margin-bottom:0;\">\n<li dir=\"ltr\">PAL version &#8212; compatible with all Nintendo DS systems (DS systems are region-free)</li>\n<li dir=\"ltr\">Please review photos for exact condition of the cartridge</li>\n<li dir=\"ltr\">Ships quickly and securely. Feel free to message me with any questions before purchasing. Thanks for looking! &#127918;</li>\n</ul>",
-      "price": 4.95,
+      "description_current": "<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\"><b>Title:&#160;</b>High School Musical 3: Senior Year - Nintendo DS</p>\n<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\"><b>Description:&#160;</b>Up for sale is <b>High School Musical 3: Senior Year</b> for the <b>Nintendo DS</b>, released in <b>2008</b>. This is the <b>PAL version from Germany</b>.</p>\n<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\">The game is tested and works properly. Great for fans of the High School Musical series or Nintendo DS collectors looking to add a European PAL release to their collection.</p>\n<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\"><b>Details:</b></p>\n<ul style=\"margin-top:0; margin-bottom:0;\">\n<li dir=\"ltr\">Platform: Nintendo DS</li>\n<li dir=\"ltr\">Title: High School Musical 3: Senior Year</li>\n<li dir=\"ltr\">Region: PAL</li>\n<li dir=\"ltr\">Country: Germany</li>\n<li dir=\"ltr\">Release Year: 2008</li>\n<li dir=\"ltr\">Language: English (PAL release)</li>\n<li dir=\"ltr\">Condition: Used, good working condition</li>\n<li dir=\"ltr\">Authentic original Nintendo DS game</li>\n</ul>\n<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\"><b>Notes:</b></p>\n<ul style=\"margin-top:0; margin-bottom:0;\">\n<li dir=\"ltr\">PAL version &#8212; compatible with all Nintendo DS systems (DS systems are region-free)</li>\n<li dir=\"ltr\">Please review photos for exact condition of the cartridge</li>\n<li dir=\"ltr\">Ships quickly and securely. Feel free to message me with any questions before purchasing. Thanks for looking! &#127918;</li>\n</ul>\n<p>Shipped with extra care and carefully packaged.</p>",
+      "price": 4.9,
       "first_listed_date": "2022-12-29T05:23:59.000Z",
-      "last_refreshed_date": null,
-      "refresh_count": 0,
-      "last_title_variant_key": null,
-      "refresh_history": [],
+      "last_refreshed_date": "2026-11-17T21:37:19.345209+00:00",
+      "refresh_count": 1,
+      "last_title_variant_key": "tags:Nintendo DS:-:upper",
+      "refresh_history": [
+        {
+          "date": "2026-11-17T21:37:19.345209+00:00",
+          "title": "HIGH SCHOOL MUSICAL 3: SENIOR YEAR - NINTENDO DS",
+          "price": 4.9
+        }
+      ],
       "publisher": null,
       "release_year": null,
       "original_price": 4.95,
-      "last_description_variant": null,
+      "last_description_variant": "Shipped with extra care and carefully packaged.",
       "needs_review": false
     },
     {
