@@ -2,7 +2,7 @@
   "config": {
     "age_threshold_days": 30,
     "weekly_refresh_cap": 10,
-    "last_run": "2026-11-17T21:37:19.345209+00:00",
+    "last_run": "2026-11-18T21:14:59.483975+00:00",
     "note": "Real synced listings from the pixel-surgeon-game-lab eBay account (production), synced 2026-10-24. 83 non-game listings (DVDs, vinyl, trading cards, collectibles, accessories) were excluded entirely - see project doc / README for details."
   },
   "listings": [
@@ -798,23 +798,29 @@
     },
     {
       "sku": "EBAY-394408807397",
-      "ebay_item_id": "394408807397",
+      "ebay_item_id": "920157955350",
       "game_title": "Brain Training: How Old Is Your Brain",
       "platform": "DS",
       "condition": "used",
-      "current_title": "Brain Training: How Old Is Your Brain - Nintendo DS / Cartridge Only",
+      "current_title": "Brain Training: How Old Is Your Brain - Nintendo DS",
       "description_original": "Brain Training: How Old Is Your Brain (Nintendo DS, 2006) Cartridge Only. PAL version - Europe. Please see photos of exact item. PAL games only play on PAL consoles (Europe) or unlocked consoles. Please do your research before purchasing this game to make sure you can play it on the console you own.",
-      "description_current": "Brain Training: How Old Is Your Brain (Nintendo DS, 2006) Cartridge Only. PAL version - Europe. Please see photos of exact item. PAL games only play on PAL consoles (Europe) or unlocked consoles. Please do your research before purchasing this game to make sure you can play it on the console you own.",
-      "price": 4.95,
+      "description_current": "Brain Training: How Old Is Your Brain (Nintendo DS, 2006) Cartridge Only. PAL version - Europe. Please see photos of exact item. PAL games only play on PAL consoles (Europe) or unlocked consoles. Please do your research before purchasing this game to make sure you can play it on the console you own.\n<p>Shipped with extra care and carefully packaged.</p>",
+      "price": 4.9,
       "first_listed_date": "2023-01-05T23:22:09.000Z",
-      "last_refreshed_date": null,
-      "refresh_count": 0,
-      "last_title_variant_key": null,
-      "refresh_history": [],
+      "last_refreshed_date": "2026-11-18T21:14:59.483975+00:00",
+      "refresh_count": 1,
+      "last_title_variant_key": "tags:Nintendo DS:-:normal",
+      "refresh_history": [
+        {
+          "date": "2026-11-18T21:14:59.483975+00:00",
+          "title": "Brain Training: How Old Is Your Brain - Nintendo DS",
+          "price": 4.9
+        }
+      ],
       "publisher": null,
       "release_year": null,
       "original_price": 4.95,
-      "last_description_variant": null,
+      "last_description_variant": "Shipped with extra care and carefully packaged.",
       "needs_review": false
     },
     {
