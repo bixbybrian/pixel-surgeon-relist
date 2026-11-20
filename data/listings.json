@@ -2,7 +2,7 @@
   "config": {
     "age_threshold_days": 30,
     "weekly_refresh_cap": 10,
-    "last_run": "2026-11-19T21:16:37.118393+00:00",
+    "last_run": "2026-11-20T20:58:32.945830+00:00",
     "note": "Real synced listings from the pixel-surgeon-game-lab eBay account (production), synced 2026-10-24. 83 non-game listings (DVDs, vinyl, trading cards, collectibles, accessories) were excluded entirely - see project doc / README for details."
   },
   "listings": [
@@ -56,23 +56,29 @@
     },
     {
       "sku": "EBAY-394432827951",
-      "ebay_item_id": "394432827951",
+      "ebay_item_id": "920165487923",
       "game_title": "Portal 2",
       "platform": "Xbox360",
       "condition": "used",
-      "current_title": "Portal 2 - Microsoft Xbox 360",
+      "current_title": "PORTAL 2 - MICROSOFT XBOX 360",
       "description_original": "<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\">Portal 2 is a puzzle video game developed by Valve Software and released in 2011 for the Microsoft Xbox 360 platform. The game is rated E10+ (Everyone 10+), offering a fun and engaging gameplay experience suitable for a wide range of audiences. With its captivating storyline, clever puzzles, and immersive gameplay mechanics, Portal 2 has become a beloved title among gamers looking for a challenging and entertaining gaming experience on the Xbox 360 console.</p>",
-      "description_current": "<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\">Portal 2 is a puzzle video game developed by Valve Software and released in 2011 for the Microsoft Xbox 360 platform. The game is rated E10+ (Everyone 10+), offering a fun and engaging gameplay experience suitable for a wide range of audiences. With its captivating storyline, clever puzzles, and immersive gameplay mechanics, Portal 2 has become a beloved title among gamers looking for a challenging and entertaining gaming experience on the Xbox 360 console.</p>",
-      "price": 8.95,
+      "description_current": "<p dir=\"ltr\" style=\"margin-top:0; margin-bottom:0;\">Portal 2 is a puzzle video game developed by Valve Software and released in 2011 for the Microsoft Xbox 360 platform. The game is rated E10+ (Everyone 10+), offering a fun and engaging gameplay experience suitable for a wide range of audiences. With its captivating storyline, clever puzzles, and immersive gameplay mechanics, Portal 2 has become a beloved title among gamers looking for a challenging and entertaining gaming experience on the Xbox 360 console.</p>\n<p>Shipped with extra care and carefully packaged.</p>",
+      "price": 8.86,
       "first_listed_date": "2023-01-25T03:42:37.000Z",
-      "last_refreshed_date": null,
-      "refresh_count": 0,
-      "last_title_variant_key": null,
-      "refresh_history": [],
+      "last_refreshed_date": "2026-11-20T20:58:32.945830+00:00",
+      "refresh_count": 1,
+      "last_title_variant_key": "tags:Microsoft Xbox 360:-:upper",
+      "refresh_history": [
+        {
+          "date": "2026-11-20T20:58:32.945830+00:00",
+          "title": "PORTAL 2 - MICROSOFT XBOX 360",
+          "price": 8.86
+        }
+      ],
       "publisher": null,
       "release_year": null,
       "original_price": 8.95,
-      "last_description_variant": null,
+      "last_description_variant": "Shipped with extra care and carefully packaged.",
       "needs_review": false
     },
     {
