@@ -2,7 +2,7 @@
   "config": {
     "age_threshold_days": 30,
     "weekly_refresh_cap": 10,
-    "last_run": "2026-11-24T00:40:12.541610+00:00",
+    "last_run": "2026-11-24T22:57:24.160194+00:00",
     "note": "Real synced listings from the pixel-surgeon-game-lab eBay account (production), synced 2026-10-24. 83 non-game listings (DVDs, vinyl, trading cards, collectibles, accessories) were excluded entirely - see project doc / README for details."
   },
   "listings": [
@@ -858,23 +858,29 @@
     },
     {
       "sku": "EBAY-394511687037",
-      "ebay_item_id": "394511687037",
+      "ebay_item_id": "920181108459",
       "game_title": "Rodea the Sky Soldier",
       "platform": "3DS",
       "condition": "used",
-      "current_title": "Rodea the Sky Soldier - Nintendo 3DS, 2015",
+      "current_title": "Rodea the Sky Soldier - Nintendo 3DS",
       "description_original": "Rodea the Sky Soldier (Nintendo 3DS, 2015).&nbsp;Very Good, check out the photos of the actual item. PAL Germany version, complete.",
-      "description_current": "Rodea the Sky Soldier (Nintendo 3DS, 2015).&nbsp;Very Good, check out the photos of the actual item. PAL Germany version, complete.",
-      "price": 32.95,
+      "description_current": "Rodea the Sky Soldier (Nintendo 3DS, 2015).&nbsp;Very Good, check out the photos of the actual item. PAL Germany version, complete.\n<p>Shipped with extra care and carefully packaged.</p>",
+      "price": 32.62,
       "first_listed_date": "2023-03-14T01:48:01.000Z",
-      "last_refreshed_date": null,
-      "refresh_count": 0,
-      "last_title_variant_key": null,
-      "refresh_history": [],
+      "last_refreshed_date": "2026-11-24T22:57:24.160194+00:00",
+      "refresh_count": 1,
+      "last_title_variant_key": "tags:Nintendo 3DS:-:normal",
+      "refresh_history": [
+        {
+          "date": "2026-11-24T22:57:24.160194+00:00",
+          "title": "Rodea the Sky Soldier - Nintendo 3DS",
+          "price": 32.62
+        }
+      ],
       "publisher": null,
       "release_year": null,
       "original_price": 32.95,
-      "last_description_variant": null,
+      "last_description_variant": "Shipped with extra care and carefully packaged.",
       "needs_review": false
     },
     {
