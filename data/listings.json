@@ -2,7 +2,7 @@
   "config": {
     "age_threshold_days": 30,
     "weekly_refresh_cap": 10,
-    "last_run": "2026-11-24T22:57:24.160194+00:00",
+    "last_run": "2026-11-25T22:16:19.858922+00:00",
     "note": "Real synced listings from the pixel-surgeon-game-lab eBay account (production), synced 2026-10-24. 83 non-game listings (DVDs, vinyl, trading cards, collectibles, accessories) were excluded entirely - see project doc / README for details."
   },
   "listings": [
@@ -35,23 +35,29 @@
     },
     {
       "sku": "EBAY-394530276298",
-      "ebay_item_id": "394530276298",
+      "ebay_item_id": "920184910326",
       "game_title": "Ninja Town",
       "platform": "DS",
       "condition": "used",
-      "current_title": "Ninja Town - Nintendo DS",
+      "current_title": "NINJA TOWN - NINTENDO DS",
       "description_original": "\"Ninja Town\" for Nintendo DS is a strategy and action/adventure game published by Nintendo in 2008. It is a part of the Ninja Town series, suitable for all ages with an E rating. The game includes a manual and is region-free, allowing it to be played on any Nintendo DS console worldwide. With its engaging gameplay and immersive storyline, \"Ninja Town\" offers players an exciting and strategic gaming experience on the popular handheld console.<br><br>Complete Game. PAL region game. May only play on a PAL Nintendo DS, please check your DS compatibility before ordering. Thank you :)",
-      "description_current": "\"Ninja Town\" for Nintendo DS is a strategy and action/adventure game published by Nintendo in 2008. It is a part of the Ninja Town series, suitable for all ages with an E rating. The game includes a manual and is region-free, allowing it to be played on any Nintendo DS console worldwide. With its engaging gameplay and immersive storyline, \"Ninja Town\" offers players an exciting and strategic gaming experience on the popular handheld console.<br><br>Complete Game. PAL region game. May only play on a PAL Nintendo DS, please check your DS compatibility before ordering. Thank you :)",
-      "price": 22.95,
+      "description_current": "\"Ninja Town\" for Nintendo DS is a strategy and action/adventure game published by Nintendo in 2008. It is a part of the Ninja Town series, suitable for all ages with an E rating. The game includes a manual and is region-free, allowing it to be played on any Nintendo DS console worldwide. With its engaging gameplay and immersive storyline, \"Ninja Town\" offers players an exciting and strategic gaming experience on the popular handheld console.<br><br>Complete Game. PAL region game. May only play on a PAL Nintendo DS, please check your DS compatibility before ordering. Thank you :)\n<p>Shipped with extra care and carefully packaged.</p>",
+      "price": 22.72,
       "first_listed_date": "2023-03-25T01:43:42.000Z",
-      "last_refreshed_date": null,
-      "refresh_count": 0,
-      "last_title_variant_key": null,
-      "refresh_history": [],
+      "last_refreshed_date": "2026-11-25T22:16:19.858922+00:00",
+      "refresh_count": 1,
+      "last_title_variant_key": "tags:Nintendo DS:-:upper",
+      "refresh_history": [
+        {
+          "date": "2026-11-25T22:16:19.858922+00:00",
+          "title": "NINJA TOWN - NINTENDO DS",
+          "price": 22.72
+        }
+      ],
       "publisher": null,
       "release_year": null,
       "original_price": 22.95,
-      "last_description_variant": null,
+      "last_description_variant": "Shipped with extra care and carefully packaged.",
       "needs_review": false
     },
     {
